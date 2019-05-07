@@ -14,7 +14,7 @@ class _resultsState extends State<results> {
   List<String> partners;
   Widget _buildres(String docid){
     return StreamBuilder(
-      stream: Firestore.instance.collection('userdata').document(docid).snapshots(),
+      stream: Firestore.instance.collection(docid.substring(0,docid.indexOf('*'))).document(docid.substring(docid.indexOf('*')+1,docid.length)).snapshots(),
       builder: (context,snapshot){
         var userdoc = snapshot.data;
         if(userdoc==null)return Text('loading...');
@@ -26,7 +26,7 @@ class _resultsState extends State<results> {
           ),
           ),
           onPressed: (){
-            Navigator.push(context,MaterialPageRoute(builder: (context) => Profile(block(userdoc['pic'], userdoc['username'], userdoc['role'], userdoc['entryno'], userdoc['email'], userdoc['mobile'], userdoc['whatsapp']),false,'gg')),);
+            Navigator.push(context,MaterialPageRoute(builder: (context) => Profile(block(userdoc['pic'], userdoc['username'], userdoc['role'], userdoc['entryno'], userdoc['email'], userdoc['mobile'], userdoc['whatsapp'],userdoc['cor']),false,'gg')),);
           },
         );
       },
