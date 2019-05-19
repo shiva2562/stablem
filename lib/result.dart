@@ -26,7 +26,7 @@ class _resultsState extends State<results> {
           ),
           ),
           onPressed: (){
-            Navigator.push(context,MaterialPageRoute(builder: (context) => Profile(block(userdoc['pic'], userdoc['username'], userdoc['role'], userdoc['entryno'], userdoc['email'], userdoc['mobile'], userdoc['whatsapp'],userdoc['cor']),false,'gg')),);
+            Navigator.push(context,MaterialPageRoute(builder: (context) => Profile(block(userdoc['pic'], userdoc['username'], userdoc['role'], userdoc['entryno'], userdoc['email'], userdoc['mobile'], userdoc['whatsapp'],List.from(userdoc['cor'])),false,'gg')),);
           },
         );
       },
@@ -49,9 +49,19 @@ class _resultsState extends State<results> {
         backgroundColor: Colors.green,
       ),
       body: Container(
-        child: ListView(
-          children: partners!=null?partners.map<Widget>(_buildres).toList():<Widget>[Text('Matching is not done yet')],
-        ),
+        child:ListView(
+          children: partners!=null?partners[0]!='noone'?partners.map<Widget>(_buildres).toList():<Widget>[Text('you were not assigned to any professor since there were surplus of TAs,please contact your HOD for further queries',style: TextStyle(
+            color: Colors.red,
+            fontSize: 20,
+            fontWeight: FontWeight.bold
+          ),)]:<Widget>[Text('Matching is not done yet',
+          style: TextStyle(
+            color: Colors.red,
+            fontSize: 20,
+            fontWeight: FontWeight.bold
+          ),
+          )],
+        )
       ),
     );
   }

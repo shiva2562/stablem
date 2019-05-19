@@ -815,7 +815,7 @@ class _MyApp extends State<MyApp> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) =>
-                                    results(widget.curuser.uid)),
+                                    results('${widget.curuser.uid}*${subjects[scur]}')),
                           );
                         },
                       ),
