@@ -19,9 +19,10 @@ class MyApp extends StatefulWidget {
 
 class _MyApp extends State<MyApp> {
   bool pressonce = true;
-  String cusername, cemail, crole, cpic, centryno, cmobile, cwhatsapp;
+  String cusername, cemail, crole, cpic, centryno, cmobile, cwhatsapp,cdept;
   String dname;
   String drole;
+  String ddept;
   int scur=0;
   String demail;
   List<String> subjects=[''];
@@ -32,9 +33,7 @@ class _MyApp extends State<MyApp> {
   String j;
   List<String> profs = ['s', 'ssd'];
   List<String> assists = ['sdsd', 'sdsds'];
-  //CollectionReference refe;
-  final DocumentReference tablerefe =
-      Firestore.instance.document('userdata/table');
+
 
   void buttonin() {
     Firestore.instance
@@ -61,6 +60,7 @@ class _MyApp extends State<MyApp> {
         cplist = List.from(dat.documents[scur].data['plist']);
         subjects = List.from(dat.documents[scur].data['cor']);
         van=dat.documents[scur].data['nop'];
+        cdept=dat.documents[scur].data['dept'];
       }
     });
   }
@@ -74,8 +74,8 @@ class _MyApp extends State<MyApp> {
 
   void initState() {
     super.initState();
-    final Firestore firestore = Firestore();
-    firestore.settings(timestampsInSnapshotsEnabled: true);
+    //final Firestore firestore = Firestore();
+    //firestore.settings(timestampsInSnapshotsEnabled: true);
     buttonin();
   }
 
@@ -165,14 +165,15 @@ class _MyApp extends State<MyApp> {
                 userdoc['email'],
                 userdoc['mobile'],
                 userdoc['whatsapp'],
-                List.from(userdoc['cor'])));
+                List.from(userdoc['cor']),
+                userdoc['dept']));
       },
     );
   }
 
   Widget _participants(BuildContext context) {
     return StreamBuilder(
-      stream: tablerefe.snapshots(),
+      stream: Firestore.instance.document('userdata/table$cdept').snapshots(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return Text('Loading....');
@@ -200,11 +201,11 @@ class _MyApp extends State<MyApp> {
                               .document(subjects[scur])
                               .updateData({'table': true});
                           if (crole == 'TA') {
-                            tablerefe.updateData({
+                            Firestore.instance.document('userdata/table$cdept').updateData({
                               'tas': FieldValue.arrayUnion(
                                   ['${widget.curuser.uid}*${subjects[scur]}'])
                             });
-                            tablerefe.get().then((tabdata) {
+                            Firestore.instance.document('userdata/table$cdept').get().then((tabdata) {
                               List<String> prs =
                                   List.from(tabdata.data['professors']);
                               for (String i in prs) {
@@ -225,11 +226,11 @@ class _MyApp extends State<MyApp> {
                               }
                             });
                           } else {
-                            tablerefe.updateData({
+                            Firestore.instance.document('userdata/table$cdept').updateData({
                               'professors': FieldValue.arrayUnion(
                                   ['${widget.curuser.uid}*${subjects[scur]}'])
                             });
-                            tablerefe.get().then((tabdata) {
+                            Firestore.instance.document('userdata/table$cdept').get().then((tabdata) {
                               List<String> tas = List.from(tabdata.data['tas']);
                               for (String i in tas) {
                                 Firestore.instance
@@ -256,11 +257,11 @@ class _MyApp extends State<MyApp> {
                               .document(subjects[scur])
                               .updateData({'table': false});
                           if (crole == 'TA') {
-                            tablerefe.updateData({
+                            Firestore.instance.document('userdata/table$cdept').updateData({
                               'tas': FieldValue.arrayRemove(
                                   ['${widget.curuser.uid}*${subjects[scur]}'])
                             });
-                            tablerefe.get().then((tabdata) {
+                            Firestore.instance.document('userdata/table$cdept').get().then((tabdata) {
                               List<String> prs =
                                   List.from(tabdata.data['professors']);
                               for (String i in prs) {
@@ -281,11 +282,11 @@ class _MyApp extends State<MyApp> {
                               }
                             });
                           } else {
-                            tablerefe.updateData({
+                            Firestore.instance.document('userdata/table$cdept').updateData({
                               'professors': FieldValue.arrayRemove(
                                   ['${widget.curuser.uid}*${subjects[scur]}'])
                             });
-                            tablerefe.get().then((tabdata) {
+                            Firestore.instance.document('userdata/table$cdept').get().then((tabdata) {
                               List<String> tas = List.from(tabdata.data['tas']);
                               for (String i in tas) {
                                 Firestore.instance
@@ -335,7 +336,8 @@ class _MyApp extends State<MyApp> {
                         userdoc['email'],
                         userdoc['mobile'],
                         userdoc['whatsapp'],
-                        List.from(userdoc['cor'])));
+                        List.from(userdoc['cor']),
+                        userdoc['dept']));
               },
             );
           }),
@@ -443,7 +445,7 @@ class _MyApp extends State<MyApp> {
                     MaterialPageRoute(
                         builder: (context) => Profile(
                             block(cpic, cusername, crole, centryno, cemail,
-                                cmobile, cwhatsapp, subjects),
+                                cmobile, cwhatsapp, subjects,cdept),
                             true,
                             widget.curuser.uid)),
                   );
@@ -655,6 +657,7 @@ class _MyApp extends State<MyApp> {
                                                                   'username':
                                                                       cusername,
                                                                   'role': crole,
+                                                                  'dept':cdept,
                                                                   'plist': [],
                                                                   'table':
                                                                       false,

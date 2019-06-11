@@ -209,8 +209,9 @@ class subject extends StatefulWidget {
   String _newentryno;
   String _newmobile;
   String van;
+  String van1;
   subject(this._newemail, this._newpassword, this._newusername,
-      this._newentryno, this._newmobile, this.van);
+      this._newentryno, this._newmobile, this.van,this.van1);
   @override
   _subjectState createState() => _subjectState();
 }
@@ -237,7 +238,8 @@ class _subjectState extends State<subject> {
           'whatsapp': '',
           'mobile': widget._newmobile,
           'entryno': widget._newentryno,
-          'cor':['$code']
+          'cor':['$code'],
+          'dept':widget.van1
         });
         Navigator.push(context, MaterialPageRoute(builder: (context) {
           return MyApp(cuser);
@@ -370,6 +372,7 @@ class _signupdState extends State<signupd> {
   String _newentryno = '';
   String _newmobile = '';
   String van = 'TA';
+  String van1='CSE';
   FirebaseUser cuser;
   final CollectionReference refe = Firestore.instance.collection('userdata');
   final DocumentReference tableref =
@@ -393,7 +396,8 @@ class _signupdState extends State<signupd> {
             'whatsapp': '',
             'mobile': _newmobile,
             'entryno': _newentryno,
-            'cor':['details']
+            'cor':['details'],
+            'dept':van1
           });
           Navigator.push(context, MaterialPageRoute(builder: (context) {
             return MyApp(cuser);
@@ -405,7 +409,7 @@ class _signupdState extends State<signupd> {
       } else {
         Navigator.push(context, MaterialPageRoute(builder: (context) {
           return subject(_newemail, _newpassword, _newusername, _newentryno,
-              _newmobile, van);
+              _newmobile, van, van1);
         }));
       }
     }
@@ -518,6 +522,41 @@ class _signupdState extends State<signupd> {
                                   items: <String>[
                                     'Professor',
                                     'TA'
+                                  ].map<DropdownMenuItem<String>>((String val) {
+                                    return DropdownMenuItem<String>(
+                                      value: val,
+                                      child: Text(
+                                        val,
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 20),
+                                      ),
+                                    );
+                                  }).toList(),
+                                )
+                              ],
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                Text(
+                                  'Department',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 15),
+                                ),
+                                DropdownButton<String>(
+                                  value: van1,
+                                  onChanged: (String newv) {
+                                    setState(() {
+                                      van1 = newv;
+                                    });
+                                  },
+                                  items: <String>[
+                                    'CSE',
+                                    'EE',
+                                    'ME'
                                   ].map<DropdownMenuItem<String>>((String val) {
                                     return DropdownMenuItem<String>(
                                       value: val,

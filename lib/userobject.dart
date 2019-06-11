@@ -7,5 +7,6 @@ class block{
   String blockwhatsapp;
   String blockentryno;
   List<String> blocksubs;
-  block(this.blockpic,this.blockname,this.blockrole,this.blockentryno,this.blockemail,this.blockmobile,this.blockwhatsapp,this.blocksubs);
+  String blockdept;
+  block(this.blockpic,this.blockname,this.blockrole,this.blockentryno,this.blockemail,this.blockmobile,this.blockwhatsapp,this.blocksubs,this.blockdept);
 }

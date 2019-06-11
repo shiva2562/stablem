@@ -26,7 +26,7 @@ class _resultsState extends State<results> {
           ),
           ),
           onPressed: (){
-            Navigator.push(context,MaterialPageRoute(builder: (context) => Profile(block(userdoc['pic'], userdoc['username'], userdoc['role'], userdoc['entryno'], userdoc['email'], userdoc['mobile'], userdoc['whatsapp'],List.from(userdoc['cor'])),false,'gg')),);
+            Navigator.push(context,MaterialPageRoute(builder: (context) => Profile(block(userdoc['pic'], userdoc['username'], userdoc['role'], userdoc['entryno'], userdoc['email'], userdoc['mobile'], userdoc['whatsapp'],List.from(userdoc['cor']),userdoc['dept']),false,'gg')),);
           },
         );
       },
