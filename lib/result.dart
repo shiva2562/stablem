@@ -50,7 +50,11 @@ class _resultsState extends State<results> {
       ),
       body: Container(
         child:ListView(
-          children: partners!=null?partners[0]!='noone'?partners.map<Widget>(_buildres).toList():<Widget>[Text('you were not assigned to any professor since there were surplus of TAs,please contact your HOD for further queries',style: TextStyle(
+          children: partners!=null?partners[0]!='noone'?partners[0]!='pnone'?partners.map<Widget>(_buildres).toList():<Widget>[Text('you were not assigned to any professor since there were surplus of TAs,please contact your HOD for further queries',style: TextStyle(
+            color: Colors.red,
+            fontSize: 20,
+            fontWeight: FontWeight.bold
+          ),)]:<Widget>[Text('you were not assigned any ta since there were less number of available TAs',style: TextStyle(
             color: Colors.red,
             fontSize: 20,
             fontWeight: FontWeight.bold
